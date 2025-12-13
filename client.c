@@ -6,13 +6,13 @@
 /*   By: fsitter <fsitter@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 12:42:24 by fsitter           #+#    #+#             */
-/*   Updated: 2025/12/13 14:20:42 by fsitter          ###   ########.fr       */
+/*   Updated: 2025/12/13 18:58:26 by fsitter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-void	message(char *msg, int pid);
+void	f_send_message(char *msg, int pid);
 void	f_acknowledge_client(int i);
 void	f_end_of_line(int pid);
 
@@ -39,29 +39,13 @@ void	f_acknowledge_client(int i)
 	g_wait = 0;
 }
 
-void	f_acknowledge_client2(int i)
-{
-	static size_t	eol_count = 0;
-
-	if (i == SIGUSR1)
-		ft_printf(".");
-	else if (i == SIGUSR2)
-	{
-		eol_count++;
-		if (eol_count == 8)
-		{
-			ft_printf("sent!\n");
-			eol_count = 0;
-		}
-	}
-	g_wait = 0;
-}
-
-void	message(char *msg, int pid)
+void	f_send_message(char *msg, int pid)
 {
 	size_t			i;
 	unsigned int	bit;
 
+	if (kill(pid, 0) == -1)
+		return (ft_printf("No connection to server.\n"), -1);
 	while (*msg)
 	{
 		i = 0;
@@ -91,8 +75,8 @@ int	main(int ac, char **av)
 	}
 	if (ft_atoi(av[1]) <= 0 || av[1][0] == '+' || ft_atoi(av[1]) > 4194304)
 		return (ft_printf("Invalid server-PID\n"), -1);
-	// signal(SIGUSR1, &f_acknowledge_client);
-	// signal(SIGUSR2, &f_acknowledge_client);
-	// message(av[2], ft_atoi(av[1]));
+	signal(SIGUSR1, &f_acknowledge_client);
+	signal(SIGUSR2, &f_acknowledge_client);
+	f_send_message(av[2], ft_atoi(av[1]));
 	return (0);
 }

@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I . -I libft
+CFLAGS = -Wall -Wextra -Werror
 NAME = client
 
 all:
