@@ -6,7 +6,7 @@
 /*   By: fsitter <fsitter@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 12:42:24 by fsitter           #+#    #+#             */
-/*   Updated: 2025/12/13 13:59:00 by fsitter          ###   ########.fr       */
+/*   Updated: 2025/12/13 14:20:42 by fsitter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ void	f_end_of_line(int pid)
 	}
 }
 
-void	f_acknowledge_client2(int i)
+void	f_acknowledge_client(int i)
 {
 	if (i == SIGUSR1)
 		ft_printf(".");
 	g_wait = 0;
 }
 
-void	f_acknowledge_client(int i)
+void	f_acknowledge_client2(int i)
 {
 	static size_t	eol_count = 0;
 
@@ -69,7 +69,7 @@ void	message(char *msg, int pid)
 		while (i < 8)
 		{
 			g_wait = 1;
-			if ((bit << i) & 0x80)
+			if ((bit << i) & (1 << 7))
 				kill(pid, SIGUSR1);
 			else
 				kill(pid, SIGUSR2);
@@ -91,8 +91,8 @@ int	main(int ac, char **av)
 	}
 	if (ft_atoi(av[1]) <= 0 || av[1][0] == '+' || ft_atoi(av[1]) > 4194304)
 		return (ft_printf("Invalid server-PID\n"), -1);
-	signal(SIGUSR1, &f_acknowledge_client);
-	signal(SIGUSR2, &f_acknowledge_client);
-	message(av[2], ft_atoi(av[1]));
+	// signal(SIGUSR1, &f_acknowledge_client);
+	// signal(SIGUSR2, &f_acknowledge_client);
+	// message(av[2], ft_atoi(av[1]));
 	return (0);
 }
