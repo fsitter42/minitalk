@@ -1,0 +1,4 @@
+add in msg:
+
+if (kill(pid, 0) == -1)
+    return(ft_printf("permission no service\n"), -1);
