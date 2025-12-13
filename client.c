@@ -6,7 +6,7 @@
 /*   By: fsitter <fsitter@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 12:42:24 by fsitter           #+#    #+#             */
-/*   Updated: 2025/12/13 18:58:26 by fsitter          ###   ########.fr       */
+/*   Updated: 2025/12/13 19:27:41 by fsitter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ void	f_send_message(char *msg, int pid)
 	size_t			i;
 	unsigned int	bit;
 
-	if (kill(pid, 0) == -1)
-		return (ft_printf("No connection to server.\n"), -1);
 	while (*msg)
 	{
 		i = 0;
@@ -64,6 +62,7 @@ void	f_send_message(char *msg, int pid)
 		msg++;
 	}
 	f_end_of_line(pid);
+	ft_printf("Message sent!\n");
 }
 
 int	main(int ac, char **av)
@@ -77,6 +76,8 @@ int	main(int ac, char **av)
 		return (ft_printf("Invalid server-PID\n"), -1);
 	signal(SIGUSR1, &f_acknowledge_client);
 	signal(SIGUSR2, &f_acknowledge_client);
+	if (kill(ft_atoi(av[1]), 0) == -1)
+		return (ft_printf("No connection to server.\n"), -1);
 	f_send_message(av[2], ft_atoi(av[1]));
 	return (0);
 }
