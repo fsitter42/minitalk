@@ -6,7 +6,7 @@
 /*   By: fsitter <fsitter@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 12:02:14 by fsitter           #+#    #+#             */
-/*   Updated: 2025/12/14 12:38:48 by fsitter          ###   ########.fr       */
+/*   Updated: 2025/12/14 13:31:02 by fsitter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@ int	main(void)
 
 	chimpanzini_bananini.sa_sigaction = &f_signal_handeling;
 	chimpanzini_bananini.sa_flags = SA_SIGINFO;
+	sigemptyset(&chimpanzini_bananini.sa_mask);
+	chimpanzini_bananini.sa_flags = 0;
+	sigaction(SIGUSR1, &chimpanzini_bananini, NULL);
+	sigaction(SIGUSR2, &chimpanzini_bananini, NULL); 
 	ft_printf("Server PID: %i\n", getpid());
 	if (sigaction(SIGUSR1, &chimpanzini_bananini, NULL) == -1)
 	ft_printf("ERROR: Receiving signal 1!\n");
