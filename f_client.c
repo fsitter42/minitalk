@@ -6,7 +6,7 @@
 /*   By: fsitter <fsitter@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 12:42:24 by fsitter           #+#    #+#             */
-/*   Updated: 2025/12/13 19:27:41 by fsitter          ###   ########.fr       */
+/*   Updated: 2025/12/14 12:39:57 by fsitter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,14 @@ void	f_end_of_line(int pid)
 		kill(pid, SIGUSR2);
 		while (g_wait)
 			pause();
+		i--;
 	}
 }
 
 void	f_acknowledge_client(int i)
 {
 	if (i == SIGUSR1)
-		ft_printf(".");
+		ft_printf(". ");
 	g_wait = 0;
 }
 
