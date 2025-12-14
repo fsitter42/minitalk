@@ -6,7 +6,7 @@
 /*   By: fsitter <fsitter@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 12:02:14 by fsitter           #+#    #+#             */
-/*   Updated: 2025/12/14 13:31:02 by fsitter          ###   ########.fr       */
+/*   Updated: 2025/12/14 13:36:22 by fsitter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	f_signal_handeling(int sig, siginfo_t *info, void *content)
 	static unsigned char	message[131072];
 
 	(void)content;
-	if(sig == SIGUSR1)
+	if (sig == SIGUSR1)
 		byte = (byte << 1) | 1;
 	else
 		byte = byte << 1;
@@ -44,19 +44,19 @@ void	f_signal_handeling(int sig, siginfo_t *info, void *content)
 
 int	main(void)
 {
-	struct sigaction chimpanzini_bananini;
+	struct sigaction	chimpanzini_bananini;
 
 	chimpanzini_bananini.sa_sigaction = &f_signal_handeling;
 	chimpanzini_bananini.sa_flags = SA_SIGINFO;
 	sigemptyset(&chimpanzini_bananini.sa_mask);
 	chimpanzini_bananini.sa_flags = 0;
 	sigaction(SIGUSR1, &chimpanzini_bananini, NULL);
-	sigaction(SIGUSR2, &chimpanzini_bananini, NULL); 
+	sigaction(SIGUSR2, &chimpanzini_bananini, NULL);
 	ft_printf("Server PID: %i\n", getpid());
 	if (sigaction(SIGUSR1, &chimpanzini_bananini, NULL) == -1)
-	ft_printf("ERROR: Receiving signal 1!\n");
+		ft_printf("ERROR: Receiving signal 1!\n");
 	if (sigaction(SIGUSR2, &chimpanzini_bananini, NULL) == -1)
-	ft_printf("ERROR: Receiving signal 2!\n");
+		ft_printf("ERROR: Receiving signal 2!\n");
 	while (1)
 		pause();
 	return (0);
